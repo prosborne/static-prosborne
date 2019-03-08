@@ -1,0 +1,29 @@
+{
+  "name": "static-prosborne",
+  "version": "1.0.0",
+  "description": "NextJS version of my website.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "next"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prosborne/static-prosborne.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prosborne/static-prosborne/issues"
+  },
+  "homepage": "https://github.com/prosborne/static-prosborne#readme",
+  "dependencies": {
+    "isomorphic-unfetch": "^3.0.0",
+    "next": "^8.0.3",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "yarn": "^1.13.0"
+  },
+  "devDependencies": {}
+}
