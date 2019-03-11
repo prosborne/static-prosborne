@@ -1,8 +1,9 @@
 {
     "version": 2,
+    "name": "prosborne.com",
     "builds": [
         {
-            "src": "pages/index.js",
+            "src": "next.config.js",
             "use": "@now/node"
         }
     ]
