@@ -44,7 +44,7 @@ function (_Component) {
           lineNumber: 6
         },
         __self: this
-      }, "This is the footer.");
+      }, "\xA9 2019, Peter Riley Osborne. All rights reserved.");
     }
   }]);
 
@@ -99,13 +99,13 @@ function (_Component) {
           lineNumber: 6
         },
         __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("strong", {
+      }, react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement("h1", {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 7
         },
         __self: this
-      }, "This is the header"));
+      }, "Peter Riley Osborne"));
     }
   }]);
 
@@ -151,7 +151,7 @@ var _jsxFileName = "/Users/posborne/Projects/pro-projects/static-prosborne/compo
       lineNumber: 6
     },
     __self: this
-  }, "My page title"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("meta", {
+  }, "Peter Riley Osborne | Developer + Musician | Eugene, Oregon"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("meta", {
     name: "viewport",
     content: "initial-scale=1.0, width=device-width",
     __source: {
