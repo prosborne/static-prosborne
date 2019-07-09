@@ -1,1 +1,5 @@
-#01334E,#003F5F,#006BA7,#F1FAFF,#000000,#DCF3FF,#43EEFF,#D7081C
+white: 'white',
+peach: '#FFF8F2',
+black: '#0F011B',
+orange: '#FF7400',
+purple: '#7700DD'
