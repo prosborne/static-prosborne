@@ -5597,6 +5597,7 @@ function () {
           _this3.changeState(method, url, as);
 
           _this3.scrollToHash(as);
+<<<<<<< HEAD
 
           Router.events.emit('hashChangeComplete', as);
           return true;
@@ -5644,6 +5645,55 @@ function () {
             throw error;
           }
 
+=======
+
+          Router.events.emit('hashChangeComplete', as);
+          return true;
+        }
+
+        var _url_1$parse = url_1.parse(url, true),
+            pathname = _url_1$parse.pathname,
+            query = _url_1$parse.query; // If asked to change the current URL we should reload the current page
+        // (not location.reload() but reload getInitialProps and other Next.js stuffs)
+        // We also need to set the method = replaceState always
+        // as this should not go into the history (That's how browsers work)
+        // We should compare the new asPath to the current asPath, not the url
+
+
+        if (!_this3.urlIsNew(as)) {
+          method = 'replaceState';
+        } // @ts-ignore pathname is always a string
+
+
+        var route = toRoute(pathname);
+        var _options$shallow = options.shallow,
+            shallow = _options$shallow === void 0 ? false : _options$shallow;
+        Router.events.emit('routeChangeStart', as); // If shallow is true and the route exists in the router cache we reuse the previous result
+        // @ts-ignore pathname is always a string
+
+        _this3.getRouteInfo(route, pathname, query, as, shallow).then(function (routeInfo) {
+          var error = routeInfo.error;
+
+          if (error && error.cancelled) {
+            return resolve(false);
+          }
+
+          Router.events.emit('beforeHistoryChange', as);
+
+          _this3.changeState(method, url, as, options);
+
+          var hash = window.location.hash.substring(1); // @ts-ignore pathname is always defined
+
+          _this3.set(route, pathname, query, as, (0, _assign.default)({}, routeInfo, {
+            hash: hash
+          }));
+
+          if (error) {
+            Router.events.emit('routeChangeError', error, as);
+            throw error;
+          }
+
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
           Router.events.emit('routeChangeComplete', as);
           return resolve(true);
         }, reject);
@@ -5680,6 +5730,7 @@ function () {
     key: "getRouteInfo",
     value: function getRouteInfo(route, pathname, query, as) {
       var _this4 = this;
+<<<<<<< HEAD
 
       var shallow = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
       var cachedRouteInfo = this.components[route]; // If there is a shallow route transition possible
@@ -5694,6 +5745,22 @@ function () {
           return resolve(cachedRouteInfo);
         }
 
+=======
+
+      var shallow = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
+      var cachedRouteInfo = this.components[route]; // If there is a shallow route transition possible
+      // If the route is already rendered on the screen.
+
+      if (shallow && cachedRouteInfo && this.route === route) {
+        return _promise.default.resolve(cachedRouteInfo);
+      }
+
+      return new _promise.default(function (resolve, reject) {
+        if (cachedRouteInfo) {
+          return resolve(cachedRouteInfo);
+        }
+
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
         _this4.fetchComponent(route).then(function (Component) {
           return resolve({
             Component: Component
@@ -6020,6 +6087,7 @@ function () {
           _url$split2 = (0, _slicedToArray2.default)(_url$split, 2),
           pathname = _url$split2[0],
           hash = _url$split2[1]; // tslint:disable-next-line
+<<<<<<< HEAD
 
 
       var _pathname$split = pathname.split('?'),
@@ -6029,6 +6097,17 @@ function () {
 
       path = path.replace(/\/$/, ''); // Append a trailing slash if this path does not have an extension
 
+=======
+
+
+      var _pathname$split = pathname.split('?'),
+          _pathname$split2 = (0, _slicedToArray2.default)(_pathname$split, 2),
+          path = _pathname$split2[0],
+          qs = _pathname$split2[1];
+
+      path = path.replace(/\/$/, ''); // Append a trailing slash if this path does not have an extension
+
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
       if (!/\.[^/]+\/?$/.test(path)) path += "/";
       if (qs) path += '?' + qs;
       if (hash) path += '#' + hash;
@@ -6544,6 +6623,7 @@ var tryApplyUpdates = function (_tryApplyUpdates) {
       }
     } // https://webpack.github.io/docs/hot-module-replacement.html#check
 
+<<<<<<< HEAD
 
     if (!isUpdateAvailable() || !canApplyUpdates()) {
       return _promise.default.resolve();
@@ -6563,6 +6643,27 @@ var tryApplyUpdates = function (_tryApplyUpdates) {
       handleApplyUpdates(err, null);
     });
 
+=======
+
+    if (!isUpdateAvailable() || !canApplyUpdates()) {
+      return _promise.default.resolve();
+    }
+
+    var _temp2 = _catch(function () {
+      return _promise.default.resolve(module.hot.check(
+      /* autoApply */
+      {
+        ignoreUnaccepted: true
+      })).then(function (updatedModules) {
+        if (updatedModules) {
+          handleApplyUpdates(null, updatedModules);
+        }
+      });
+    }, function (err) {
+      handleApplyUpdates(err, null);
+    });
+
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
     return _promise.default.resolve(_temp2 && _temp2.then ? _temp2.then(function () {}) : void 0);
   } catch (e) {
     return _promise.default.reject(e);
@@ -6973,6 +7074,7 @@ TextDecoderPolyfill.prototype.decode = function (octets) {
   var string = '';
   var bitsNeeded = this.bitsNeeded;
   var codePoint = this.codePoint;
+<<<<<<< HEAD
 
   for (var i = 0; i < octets.length; i += 1) {
     var octet = octets[i];
@@ -7022,6 +7124,638 @@ TextDecoderPolyfill.prototype.decode = function (octets) {
     }
   }
 
+  this.bitsNeeded = bitsNeeded;
+  this.codePoint = codePoint;
+  return string;
+}; // Firefox < 38 throws an error with stream option
+
+
+var supportsStreamOption = function supportsStreamOption() {
+  try {
+    return new TextDecoder().decode(new TextEncoder().encode('test'), {
+      stream: true
+    }) === 'test';
+  } catch (error) {
+    console.log(error);
+  }
+
+  return false;
+}; // IE, Edge
+=======
+
+  for (var i = 0; i < octets.length; i += 1) {
+    var octet = octets[i];
+
+    if (bitsNeeded !== 0) {
+      if (octet < 128 || octet > 191 || !valid(codePoint << 6 | octet & 63, bitsNeeded - 6, octetsCount(bitsNeeded, codePoint))) {
+        bitsNeeded = 0;
+        codePoint = REPLACER;
+        string += String.fromCharCode(codePoint);
+      }
+    }
+
+    if (bitsNeeded === 0) {
+      if (octet >= 0 && octet <= 127) {
+        bitsNeeded = 0;
+        codePoint = octet;
+      } else if (octet >= 192 && octet <= 223) {
+        bitsNeeded = 6 * 1;
+        codePoint = octet & 31;
+      } else if (octet >= 224 && octet <= 239) {
+        bitsNeeded = 6 * 2;
+        codePoint = octet & 15;
+      } else if (octet >= 240 && octet <= 247) {
+        bitsNeeded = 6 * 3;
+        codePoint = octet & 7;
+      } else {
+        bitsNeeded = 0;
+        codePoint = REPLACER;
+      }
+
+      if (bitsNeeded !== 0 && !valid(codePoint, bitsNeeded, octetsCount(bitsNeeded, codePoint))) {
+        bitsNeeded = 0;
+        codePoint = REPLACER;
+      }
+    } else {
+      bitsNeeded -= 6;
+      codePoint = codePoint << 6 | octet & 63;
+    }
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
+
+    if (bitsNeeded === 0) {
+      if (codePoint <= 0xFFFF) {
+        string += String.fromCharCode(codePoint);
+      } else {
+        string += String.fromCharCode(0xD800 + (codePoint - 0xFFFF - 1 >> 10));
+        string += String.fromCharCode(0xDC00 + (codePoint - 0xFFFF - 1 & 0x3FF));
+      }
+    }
+  }
+
+<<<<<<< HEAD
+if (TextDecoder == undefined || TextEncoder == undefined || !supportsStreamOption()) {
+  TextDecoder = TextDecoderPolyfill;
+}
+
+var k = function k() {};
+
+function XHRWrapper(xhr) {
+  this.withCredentials = false;
+  this.responseType = '';
+  this.readyState = 0;
+  this.status = 0;
+  this.statusText = '';
+  this.responseText = '';
+  this.onprogress = k;
+  this.onreadystatechange = k;
+  this._contentType = '';
+  this._xhr = xhr;
+  this._sendTimeout = 0;
+  this._abort = k;
+}
+
+XHRWrapper.prototype.open = function (method, url) {
+  this._abort(true);
+
+  var that = this;
+  var xhr = this._xhr;
+  var state = 1;
+  var timeout = 0;
+
+  this._abort = function (silent) {
+    if (that._sendTimeout !== 0) {
+      clearTimeout(that._sendTimeout);
+      that._sendTimeout = 0;
+    }
+
+    if (state === 1 || state === 2 || state === 3) {
+      state = 4;
+      xhr.onload = k;
+      xhr.onerror = k;
+      xhr.onabort = k;
+      xhr.onprogress = k;
+      xhr.onreadystatechange = k; // IE 8 - 9: XDomainRequest#abort() does not fire any event
+      // Opera < 10: XMLHttpRequest#abort() does not fire any event
+
+      xhr.abort();
+
+      if (timeout !== 0) {
+        clearTimeout(timeout);
+        timeout = 0;
+      }
+
+      if (!silent) {
+        that.readyState = 4;
+        that.onreadystatechange();
+      }
+    }
+
+    state = 0;
+  };
+
+  var onStart = function onStart() {
+    if (state === 1) {
+      // state = 2;
+      var status = 0;
+      var statusText = '';
+      var contentType = undefined;
+
+      if (!('contentType' in xhr)) {
+        try {
+          status = xhr.status;
+          statusText = xhr.statusText;
+          contentType = xhr.getResponseHeader('Content-Type');
+        } catch (error) {
+          // IE < 10 throws exception for `xhr.status` when xhr.readyState === 2 || xhr.readyState === 3
+          // Opera < 11 throws exception for `xhr.status` when xhr.readyState === 2
+          // https://bugs.webkit.org/show_bug.cgi?id=29121
+          status = 0;
+          statusText = '';
+          contentType = undefined; // Firefox < 14, Chrome ?, Safari ?
+          // https://bugs.webkit.org/show_bug.cgi?id=29658
+          // https://bugs.webkit.org/show_bug.cgi?id=77854
+        }
+      } else {
+        status = 200;
+        statusText = 'OK';
+        contentType = xhr.contentType;
+      }
+
+      if (status !== 0) {
+        state = 2;
+        that.readyState = 2;
+        that.status = status;
+        that.statusText = statusText;
+        that._contentType = contentType;
+        that.onreadystatechange();
+      }
+    }
+  };
+
+  var onProgress = function onProgress() {
+    onStart();
+
+    if (state === 2 || state === 3) {
+      state = 3;
+      var responseText = '';
+
+      try {
+        responseText = xhr.responseText;
+      } catch (error) {// IE 8 - 9 with XMLHttpRequest
+      }
+
+      that.readyState = 3;
+      that.responseText = responseText;
+      that.onprogress();
+    }
+  };
+
+  var onFinish = function onFinish() {
+    // Firefox 52 fires "readystatechange" (xhr.readyState === 4) without final "readystatechange" (xhr.readyState === 3)
+    // IE 8 fires "onload" without "onprogress"
+    onProgress();
+
+    if (state === 1 || state === 2 || state === 3) {
+      state = 4;
+
+      if (timeout !== 0) {
+        clearTimeout(timeout);
+        timeout = 0;
+      }
+
+      that.readyState = 4;
+      that.onreadystatechange();
+    }
+  };
+
+  var onReadyStateChange = function onReadyStateChange() {
+    if (xhr != undefined) {
+      // Opera 12
+      if (xhr.readyState === 4) {
+        onFinish();
+      } else if (xhr.readyState === 3) {
+        onProgress();
+      } else if (xhr.readyState === 2) {
+        onStart();
+      }
+    }
+  };
+
+  var onTimeout = function onTimeout() {
+    timeout = setTimeout(function () {
+      onTimeout();
+    }, 500);
+
+    if (xhr.readyState === 3) {
+      onProgress();
+    }
+  }; // XDomainRequest#abort removes onprogress, onerror, onload
+
+
+  xhr.onload = onFinish;
+  xhr.onerror = onFinish; // improper fix to match Firefox behaviour, but it is better than just ignore abort
+  // see https://bugzilla.mozilla.org/show_bug.cgi?id=768596
+  // https://bugzilla.mozilla.org/show_bug.cgi?id=880200
+  // https://code.google.com/p/chromium/issues/detail?id=153570
+  // IE 8 fires "onload" without "onprogress
+
+  xhr.onabort = onFinish; // https://bugzilla.mozilla.org/show_bug.cgi?id=736723
+
+  if (!('sendAsBinary' in XMLHttpRequest.prototype) && !('mozAnon' in XMLHttpRequest.prototype)) {
+    xhr.onprogress = onProgress;
+  } // IE 8 - 9 (XMLHTTPRequest)
+  // Opera < 12
+  // Firefox < 3.5
+  // Firefox 3.5 - 3.6 - ? < 9.0
+  // onprogress is not fired sometimes or delayed
+  // see also #64
+
+
+  xhr.onreadystatechange = onReadyStateChange;
+
+  if ('contentType' in xhr) {
+    url += (url.indexOf('?') === -1 ? '?' : '&') + 'padding=true';
+  }
+
+  xhr.open(method, url, true);
+
+  if ('readyState' in xhr) {
+    // workaround for Opera 12 issue with "progress" events
+    // #91
+    timeout = setTimeout(function () {
+      onTimeout();
+    }, 0);
+  }
+};
+
+XHRWrapper.prototype.abort = function () {
+  this._abort(false);
+};
+
+XHRWrapper.prototype.getResponseHeader = function (name) {
+  return this._contentType;
+};
+
+XHRWrapper.prototype.setRequestHeader = function (name, value) {
+  var xhr = this._xhr;
+
+  if ('setRequestHeader' in xhr) {
+    xhr.setRequestHeader(name, value);
+  }
+};
+
+XHRWrapper.prototype.getAllResponseHeaders = function () {
+  return this._xhr.getAllResponseHeaders != undefined ? this._xhr.getAllResponseHeaders() : '';
+};
+
+XHRWrapper.prototype.send = function () {
+  // loading indicator in Safari < ? (6), Chrome < 14, Firefox
+  if (!('ontimeout' in XMLHttpRequest.prototype) && document != undefined && document.readyState != undefined && document.readyState !== 'complete') {
+    var that = this;
+    that._sendTimeout = setTimeout(function () {
+      that._sendTimeout = 0;
+      that.send();
+    }, 4);
+    return;
+  }
+
+  var xhr = this._xhr; // withCredentials should be set after "open" for Safari and Chrome (< 19 ?)
+
+  xhr.withCredentials = this.withCredentials;
+  xhr.responseType = this.responseType;
+
+  try {
+    // xhr.send(); throws "Not enough arguments" in Firefox 3.0
+    xhr.send(undefined);
+  } catch (error1) {
+    // Safari 5.1.7, Opera 12
+    throw error1;
+  }
+};
+
+function toLowerCase(name) {
+  return name.replace(/[A-Z]/g, function (c) {
+    return String.fromCharCode(c.charCodeAt(0) + 0x20);
+  });
+}
+
+function HeadersPolyfill(all) {
+  // Get headers: implemented according to mozilla's example code: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders#Example
+  var map = (0, _create.default)(null);
+  var array = all.split('\r\n');
+
+  for (var i = 0; i < array.length; i += 1) {
+    var line = array[i];
+    var parts = line.split(': ');
+    var name = parts.shift();
+    var value = parts.join(': ');
+    map[toLowerCase(name)] = value;
+  }
+
+  this._map = map;
+}
+
+HeadersPolyfill.prototype.get = function (name) {
+  return this._map[toLowerCase(name)];
+};
+
+function XHRTransport() {}
+
+XHRTransport.prototype.open = function (xhr, onStartCallback, onProgressCallback, onFinishCallback, url, withCredentials, headers) {
+  xhr.open('GET', url);
+  var offset = 0;
+
+  xhr.onprogress = function () {
+    var responseText = xhr.responseText;
+    var chunk = responseText.slice(offset);
+    offset += chunk.length;
+    onProgressCallback(chunk);
+  };
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 2) {
+      var status = xhr.status;
+      var statusText = xhr.statusText;
+      var contentType = xhr.getResponseHeader('Content-Type');
+      var headers = xhr.getAllResponseHeaders();
+      onStartCallback(status, statusText, contentType, new HeadersPolyfill(headers), function () {
+        xhr.abort();
+      });
+    } else if (xhr.readyState === 4) {
+      onFinishCallback();
+    }
+  };
+
+  xhr.withCredentials = withCredentials;
+  xhr.responseType = 'text';
+
+  for (var name in headers) {
+    if (Object.prototype.hasOwnProperty.call(headers, name)) {
+      xhr.setRequestHeader(name, headers[name]);
+    }
+  }
+
+  xhr.send();
+};
+
+function HeadersWrapper(headers) {
+  this._headers = headers;
+}
+
+HeadersWrapper.prototype.get = function (name) {
+  return this._headers.get(name);
+};
+
+function FetchTransport() {}
+
+FetchTransport.prototype.open = function (xhr, onStartCallback, onProgressCallback, onFinishCallback, url, withCredentials, headers) {
+  var controller = new AbortController();
+  var signal = controller.signal; // see #120
+
+  var textDecoder = new TextDecoder();
+  unfetch_1.default(url, {
+    headers: headers,
+    credentials: withCredentials ? 'include' : 'same-origin',
+    signal: signal,
+    cache: 'no-store'
+  }).then(function (response) {
+    var reader = response.body.getReader();
+    onStartCallback(response.status, response.statusText, response.headers.get('Content-Type'), new HeadersWrapper(response.headers), function () {
+      controller.abort();
+      reader.cancel();
+    });
+    return new _promise.default(function (resolve, reject) {
+      var readNextChunk = function readNextChunk() {
+        reader.read().then(function (result) {
+          if (result.done) {
+            // Note: bytes in textDecoder are ignored
+            resolve(undefined);
+          } else {
+            var chunk = textDecoder.decode(result.value, {
+              stream: true
+            });
+            onProgressCallback(chunk);
+            readNextChunk();
+          }
+        })['catch'](function (error) {
+          reject(error);
+        });
+      };
+
+      readNextChunk();
+    });
+  }).then(function (result) {
+    onFinishCallback();
+    return result;
+  }, function (error) {
+    onFinishCallback();
+    return _promise.default.reject(error);
+  });
+};
+
+function EventTarget() {
+  this._listeners = (0, _create.default)(null);
+}
+
+function throwError(e) {
+  setTimeout(function () {
+    throw e;
+  }, 0);
+}
+
+EventTarget.prototype.dispatchEvent = function (event) {
+  event.target = this;
+  var typeListeners = this._listeners[event.type];
+
+  if (typeListeners != undefined) {
+    var length = typeListeners.length;
+
+    for (var i = 0; i < length; i += 1) {
+      var listener = typeListeners[i];
+
+      try {
+        if (typeof listener.handleEvent === 'function') {
+          listener.handleEvent(event);
+        } else {
+          listener.call(this, event);
+        }
+      } catch (e) {
+        throwError(e);
+      }
+    }
+  }
+};
+
+EventTarget.prototype.addEventListener = function (type, listener) {
+  type = String(type);
+  var listeners = this._listeners;
+  var typeListeners = listeners[type];
+
+  if (typeListeners == undefined) {
+    typeListeners = [];
+    listeners[type] = typeListeners;
+  }
+
+  var found = false;
+
+  for (var i = 0; i < typeListeners.length; i += 1) {
+    if (typeListeners[i] === listener) {
+      found = true;
+    }
+  }
+
+  if (!found) {
+    typeListeners.push(listener);
+  }
+};
+
+EventTarget.prototype.removeEventListener = function (type, listener) {
+  type = String(type);
+  var listeners = this._listeners;
+  var typeListeners = listeners[type];
+
+  if (typeListeners != undefined) {
+    var filtered = [];
+
+    for (var i = 0; i < typeListeners.length; i += 1) {
+      if (typeListeners[i] !== listener) {
+        filtered.push(typeListeners[i]);
+      }
+    }
+
+    if (filtered.length === 0) {
+      delete listeners[type];
+    } else {
+      listeners[type] = filtered;
+    }
+  }
+};
+
+function Event(type) {
+  this.type = type;
+  this.target = undefined;
+}
+
+function MessageEvent(type, options) {
+  Event.call(this, type);
+  this.data = options.data;
+  this.lastEventId = options.lastEventId;
+}
+
+MessageEvent.prototype = (0, _create.default)(Event.prototype);
+
+function ConnectionEvent(type, options) {
+  Event.call(this, type);
+  this.status = options.status;
+  this.statusText = options.statusText;
+  this.headers = options.headers;
+}
+
+ConnectionEvent.prototype = (0, _create.default)(Event.prototype);
+var WAITING = -1;
+var CONNECTING = 0;
+var OPEN = 1;
+var CLOSED = 2;
+var AFTER_CR = -1;
+var FIELD_START = 0;
+var FIELD = 1;
+var VALUE_START = 2;
+var VALUE = 3;
+var contentTypeRegExp = /^text\/event\-stream;?(\s*charset\=utf\-8)?$/i;
+var MINIMUM_DURATION = 1000;
+var MAXIMUM_DURATION = 18000000;
+
+var parseDuration = function parseDuration(value, def) {
+  var n = (0, _parseInt2.default)(value, 10);
+
+  if (n !== n) {
+    n = def;
+  }
+
+  return clampDuration(n);
+};
+
+var clampDuration = function clampDuration(n) {
+  return Math.min(Math.max(n, MINIMUM_DURATION), MAXIMUM_DURATION);
+};
+
+var fire = function fire(that, f, event) {
+  try {
+    if (typeof f === 'function') {
+      f.call(that, event);
+    }
+  } catch (e) {
+    throwError(e);
+  }
+};
+
+function EventSourcePolyfill(url, options) {
+  EventTarget.call(this);
+  this.onopen = undefined;
+  this.onmessage = undefined;
+  this.onerror = undefined;
+  this.url = undefined;
+  this.readyState = undefined;
+  this.withCredentials = undefined;
+  this._close = undefined;
+  start(this, url, options);
+}
+
+var isFetchSupported = unfetch_1.default != undefined && Response != undefined && 'body' in Response.prototype;
+
+function start(es, url, options) {
+  url = String(url);
+  var withCredentials = options != undefined && Boolean(options.withCredentials);
+  var initialRetry = clampDuration(1000);
+  var heartbeatTimeout = options != undefined && options.heartbeatTimeout != undefined ? parseDuration(options.heartbeatTimeout, 45000) : clampDuration(45000);
+  var lastEventId = '';
+  var retry = initialRetry;
+  var wasActivity = false;
+  var headers = options != undefined && options.headers != undefined ? JSON.parse((0, _stringify.default)(options.headers)) : undefined;
+  var CurrentTransport = options != undefined && options.Transport != undefined ? options.Transport : XMLHttpRequest;
+  var xhr = isFetchSupported && !(options != undefined && options.Transport != undefined) ? undefined : new XHRWrapper(new CurrentTransport());
+  var transport = xhr == undefined ? new FetchTransport() : new XHRTransport();
+  var cancelFunction = undefined;
+  var timeout = 0;
+  var currentState = WAITING;
+  var dataBuffer = '';
+  var lastEventIdBuffer = '';
+  var eventTypeBuffer = '';
+  var textBuffer = '';
+  var state = FIELD_START;
+  var fieldStart = 0;
+  var valueStart = 0;
+
+  var onStart = function onStart(status, statusText, contentType, headers, cancel) {
+    if (currentState === CONNECTING) {
+      cancelFunction = cancel;
+
+      if (status === 200 && contentType != undefined && contentTypeRegExp.test(contentType)) {
+        currentState = OPEN;
+        wasActivity = true;
+        retry = initialRetry;
+        es.readyState = OPEN;
+        var event = new ConnectionEvent('open', {
+          status: status,
+          statusText: statusText,
+          headers: headers
+        });
+        es.dispatchEvent(event);
+        fire(es, es.onopen, event);
+      } else {
+        var message = '';
+
+        if (status !== 200) {
+          if (statusText) {
+            statusText = statusText.replace(/\s+/g, ' ');
+          }
+
+          message = "EventSource's response has a status " + status + ' ' + statusText + ' that is not 200. Aborting the connection.';
+        } else {
+          message = "EventSource's response has a Content-Type specifying an unsupported type: " + (contentType == undefined ? '-' : contentType.replace(/\s+/g, ' ')) + '. Aborting the connection.';
+        }
+
+=======
   this.bitsNeeded = bitsNeeded;
   this.codePoint = codePoint;
   return string;
@@ -7603,6 +8337,7 @@ function start(es, url, options) {
           message = "EventSource's response has a Content-Type specifying an unsupported type: " + (contentType == undefined ? '-' : contentType.replace(/\s+/g, ' ')) + '. Aborting the connection.';
         }
 
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
         throwError(new Error(message));
         close();
         var event = new ConnectionEvent('error', {
@@ -7793,6 +8528,7 @@ function start(es, url, options) {
     // Request header field Last-Event-ID is not allowed by Access-Control-Allow-Headers.
 
     var requestURL = url;
+<<<<<<< HEAD
 
     if (url.slice(0, 5) !== 'data:' && url.slice(0, 5) !== 'blob:') {
       if (lastEventId !== '') {
@@ -8155,6 +8891,370 @@ var render = function render(props) {
   }
 };
 
+=======
+
+    if (url.slice(0, 5) !== 'data:' && url.slice(0, 5) !== 'blob:') {
+      if (lastEventId !== '') {
+        requestURL += (url.indexOf('?') === -1 ? '?' : '&') + 'lastEventId=' + encodeURIComponent(lastEventId);
+      }
+    }
+
+    var requestHeaders = {};
+    requestHeaders['Accept'] = 'text/event-stream';
+
+    if (headers != undefined) {
+      for (var name in headers) {
+        if (Object.prototype.hasOwnProperty.call(headers, name)) {
+          requestHeaders[name] = headers[name];
+        }
+      }
+    }
+
+    try {
+      transport.open(xhr, onStart, onProgress, onFinish, requestURL, withCredentials, requestHeaders);
+    } catch (error) {
+      close();
+      throw error;
+    }
+  };
+
+  es.url = url;
+  es.readyState = CONNECTING;
+  es.withCredentials = withCredentials;
+  es._close = close;
+  onTimeout();
+}
+
+EventSourcePolyfill.prototype = (0, _create.default)(EventTarget.prototype);
+EventSourcePolyfill.prototype.CONNECTING = CONNECTING;
+EventSourcePolyfill.prototype.OPEN = OPEN;
+EventSourcePolyfill.prototype.CLOSED = CLOSED;
+
+EventSourcePolyfill.prototype.close = function () {
+  this._close();
+};
+
+EventSourcePolyfill.CONNECTING = CONNECTING;
+EventSourcePolyfill.OPEN = OPEN;
+EventSourcePolyfill.CLOSED = CLOSED;
+EventSourcePolyfill.prototype.withCredentials = undefined;
+exports.default = EventSourcePolyfill;
+
+/***/ }),
+
+/***/ "./node_modules/next/dist/client/head-manager.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/next/dist/client/head-manager.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireDefault */ "./node_modules/@babel/runtime-corejs2/helpers/interopRequireDefault.js");
+
+var _promise = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/core-js/promise */ "./node_modules/@babel/runtime-corejs2/core-js/promise.js"));
+
+var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/classCallCheck */ "./node_modules/@babel/runtime-corejs2/helpers/classCallCheck.js"));
+
+var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/createClass */ "./node_modules/@babel/runtime-corejs2/helpers/createClass.js"));
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var DOMAttributeNames = {
+  acceptCharset: 'accept-charset',
+  className: 'class',
+  htmlFor: 'for',
+  httpEquiv: 'http-equiv'
+};
+
+var HeadManager =
+/*#__PURE__*/
+function () {
+  function HeadManager() {
+    var _this = this;
+
+    (0, _classCallCheck2.default)(this, HeadManager);
+
+    this.updateHead = function (head) {
+      var promise = _this.updatePromise = _promise.default.resolve().then(function () {
+        if (promise !== _this.updatePromise) return;
+        _this.updatePromise = null;
+
+        _this.doUpdateHead(head);
+      });
+    };
+
+    this.updatePromise = null;
+  }
+
+  (0, _createClass2.default)(HeadManager, [{
+    key: "doUpdateHead",
+    value: function doUpdateHead(head) {
+      var _this2 = this;
+
+      var tags = {};
+      head.forEach(function (h) {
+        var components = tags[h.type] || [];
+        components.push(h);
+        tags[h.type] = components;
+      });
+      this.updateTitle(tags.title ? tags.title[0] : null);
+      var types = ['meta', 'base', 'link', 'style', 'script'];
+      types.forEach(function (type) {
+        _this2.updateElements(type, tags[type] || []);
+      });
+    }
+  }, {
+    key: "updateTitle",
+    value: function updateTitle(component) {
+      var title = '';
+
+      if (component) {
+        var children = component.props.children;
+        title = typeof children === 'string' ? children : children.join('');
+      }
+
+      if (title !== document.title) document.title = title;
+    }
+  }, {
+    key: "updateElements",
+    value: function updateElements(type, components) {
+      var headEl = document.getElementsByTagName('head')[0];
+      var oldTags = Array.prototype.slice.call(headEl.querySelectorAll(type + '.next-head'));
+      var newTags = components.map(reactElementToDOM).filter(function (newTag) {
+        for (var i = 0, len = oldTags.length; i < len; i++) {
+          var oldTag = oldTags[i];
+
+          if (oldTag.isEqualNode(newTag)) {
+            oldTags.splice(i, 1);
+            return false;
+          }
+        }
+
+        return true;
+      });
+      oldTags.forEach(function (t) {
+        return t.parentNode.removeChild(t);
+      });
+      newTags.forEach(function (t) {
+        return headEl.appendChild(t);
+      });
+    }
+  }]);
+  return HeadManager;
+}();
+
+exports.default = HeadManager;
+
+function reactElementToDOM(_ref) {
+  var type = _ref.type,
+      props = _ref.props;
+  var el = document.createElement(type);
+
+  for (var p in props) {
+    if (!props.hasOwnProperty(p)) continue;
+    if (p === 'children' || p === 'dangerouslySetInnerHTML') continue;
+    var attr = DOMAttributeNames[p] || p.toLowerCase();
+    el.setAttribute(attr, props[p]);
+  }
+
+  var children = props.children,
+      dangerouslySetInnerHTML = props.dangerouslySetInnerHTML;
+
+  if (dangerouslySetInnerHTML) {
+    el.innerHTML = dangerouslySetInnerHTML.__html || '';
+  } else if (children) {
+    el.textContent = typeof children === 'string' ? children : children.join('');
+  }
+
+  return el;
+}
+
+/***/ }),
+
+/***/ "./node_modules/next/dist/client/index.js":
+/*!************************************************!*\
+  !*** ./node_modules/next/dist/client/index.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireDefault */ "./node_modules/@babel/runtime-corejs2/helpers/interopRequireDefault.js");
+
+var _assign = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/core-js/object/assign */ "./node_modules/@babel/runtime-corejs2/core-js/object/assign.js"));
+
+var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/slicedToArray */ "./node_modules/@babel/runtime-corejs2/helpers/slicedToArray.js"));
+
+var _promise = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/core-js/promise */ "./node_modules/@babel/runtime-corejs2/core-js/promise.js"));
+
+function _catch(body, recover) {
+  try {
+    var result = body();
+  } catch (e) {
+    return recover(e);
+  }
+
+  if (result && result.then) {
+    return result.then(void 0, recover);
+  }
+
+  return result;
+}
+
+var doRender = function doRender(_ref5) {
+  var App = _ref5.App,
+      Component = _ref5.Component,
+      props = _ref5.props,
+      err = _ref5.err;
+
+  try {
+    function _temp11() {
+      Component = Component || lastAppProps.Component;
+      props = props || lastAppProps.props;
+      var appProps = (0, _assign.default)({
+        Component: Component,
+        err: err,
+        router: exports.router
+      }, props); // lastAppProps has to be set before ReactDom.render to account for ReactDom throwing an error.
+
+      lastAppProps = appProps;
+      exports.emitter.emit('before-reactdom-render', {
+        Component: Component,
+        ErrorComponent: exports.ErrorComponent,
+        appProps: appProps
+      }); // In development runtime errors are caught by react-error-overlay.
+
+      if (true) {
+        renderReactElement(react_1.default.createElement(react_1.Suspense, {
+          fallback: react_1.default.createElement("div", null, "Loading...")
+        }, react_1.default.createElement(router_context_1.RouterContext.Provider, {
+          value: router_1.makePublicRouterInstance(exports.router)
+        }, react_1.default.createElement(data_manager_context_1.DataManagerContext.Provider, {
+          value: exports.dataManager
+        }, react_1.default.createElement(head_manager_context_1.HeadManagerContext.Provider, {
+          value: headManager.updateHead
+        }, react_1.default.createElement(App, (0, _assign.default)({}, appProps)))))), appContainer);
+      } else {}
+
+      exports.emitter.emit('after-reactdom-render', {
+        Component: Component,
+        ErrorComponent: exports.ErrorComponent,
+        appProps: appProps
+      });
+    }
+
+    var _temp12 = function () {
+      if (!props && Component && Component !== exports.ErrorComponent && lastAppProps.Component === exports.ErrorComponent) {
+        var _exports$router = exports.router,
+            pathname = _exports$router.pathname,
+            _query = _exports$router.query,
+            _asPath = _exports$router.asPath;
+        return _promise.default.resolve(utils_1.loadGetInitialProps(App, {
+          Component: Component,
+          router: exports.router,
+          ctx: {
+            err: err,
+            pathname: pathname,
+            query: _query,
+            asPath: _asPath
+          }
+        })).then(function (_utils_1$loadGetIniti) {
+          props = _utils_1$loadGetIniti;
+        });
+      }
+    }();
+
+    // Usual getInitialProps fetching is handled in next/router
+    // this is for when ErrorComponent gets replaced by Component by HMR
+    return _promise.default.resolve(_temp12 && _temp12.then ? _temp12.then(_temp11) : _temp11(_temp12));
+  } catch (e) {
+    return _promise.default.reject(e);
+  }
+};
+
+// This method handles all runtime and debug errors.
+// 404 and 500 errors are special kind of errors
+// and they are still handle via the main render method.
+var renderError = function renderError(props) {
+  try {
+    var _App = props.App,
+        _err = props.err;
+
+    if (true) {
+      return _promise.default.resolve(webpackHMR.reportRuntimeError(webpackHMR.prepareError(_err)));
+    } // Make sure we log the error to the console, otherwise users can't track down issues.
+
+
+    console.error(_err);
+    return _promise.default.resolve(pageLoader.loadPage('/_error')).then(function (_pageLoader$loadPage3) {
+      function _temp8(initProps) {
+        return _promise.default.resolve(doRender((0, _assign.default)({}, props, {
+          err: _err,
+          Component: exports.ErrorComponent,
+          props: initProps
+        }))).then(function () {});
+      }
+
+      exports.ErrorComponent = _pageLoader$loadPage3;
+      var _props$props = props.props;
+      // In production we do a normal render with the `ErrorComponent` as component.
+      // If we've gotten here upon initial render, we can use the props from the server.
+      // Otherwise, we need to call `getInitialProps` on `App` before mounting.
+      return _props$props ? _temp8(props.props) : _promise.default.resolve(utils_1.loadGetInitialProps(_App, {
+        Component: exports.ErrorComponent,
+        router: exports.router,
+        ctx: {
+          err: _err,
+          pathname: page,
+          query: query,
+          asPath: asPath
+        }
+      })).then(_temp8);
+    });
+  } catch (e) {
+    return _promise.default.reject(e);
+  }
+};
+
+var render = function render(props) {
+  try {
+    var _exit3 = false;
+
+    function _temp6(_result2) {
+      if (_exit3) return _result2;
+
+      var _temp3 = _catch(function () {
+        return _promise.default.resolve(doRender(props)).then(function () {});
+      }, function (err) {
+        return _promise.default.resolve(renderError((0, _assign.default)({}, props, {
+          err: err
+        }))).then(function () {});
+      });
+
+      if (_temp3 && _temp3.then) return _temp3.then(function () {});
+    }
+
+    var _temp7 = function () {
+      if (props.err) {
+        return _promise.default.resolve(renderError(props)).then(function () {
+          _exit3 = true;
+        });
+      }
+    }();
+
+    return _promise.default.resolve(_temp7 && _temp7.then ? _temp7.then(_temp6) : _temp6(_temp7));
+  } catch (e) {
+    return _promise.default.reject(e);
+  }
+};
+
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
 var __importStar = void 0 && (void 0).__importStar || function (mod) {
   if (mod && mod.__esModule) return mod;
   var result = {};
@@ -8259,6 +9359,7 @@ var webpackHMR;
 var Component;
 var App;
 exports.emitter = mitt_1.default();
+<<<<<<< HEAD
 
 exports.default = function () {
   var _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
@@ -8331,6 +9432,80 @@ exports.default = function () {
         initialErr = error;
       });
 
+=======
+
+exports.default = function () {
+  var _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      passedWebpackHMR = _ref3.webpackHMR;
+
+  try {
+    // This makes sure this specific line is removed in production
+    if (true) {
+      webpackHMR = passedWebpackHMR;
+    }
+
+    return _promise.default.resolve(pageLoader.loadPage('/_app')).then(function (_pageLoader$loadPage) {
+      var _exit = false;
+
+      function _temp2(_result) {
+        return _exit ? _result : _promise.default.resolve(loadable_1.default.preloadReady(dynamicIds || [])).then(function () {
+          if (dynamicBuildId === true) {
+            pageLoader.onDynamicBuildId();
+          }
+
+          exports.router = router_1.createRouter(page, query, asPath, {
+            initialProps: props,
+            pageLoader: pageLoader,
+            App: App,
+            Component: Component,
+            err: initialErr
+          });
+          exports.router.subscribe(function (_ref4) {
+            var App = _ref4.App,
+                Component = _ref4.Component,
+                props = _ref4.props,
+                err = _ref4.err;
+            render({
+              App: App,
+              Component: Component,
+              props: props,
+              err: err,
+              emitter: exports.emitter
+            });
+          });
+          render({
+            App: App,
+            Component: Component,
+            props: props,
+            err: initialErr,
+            emitter: exports.emitter
+          });
+          return exports.emitter;
+        });
+      }
+
+      App = _pageLoader$loadPage;
+      var initialErr = err;
+
+      var _temp = _catch(function () {
+        return _promise.default.resolve(pageLoader.loadPage(page)).then(function (_pageLoader$loadPage2) {
+          Component = _pageLoader$loadPage2;
+
+          if (true) {
+            var _require = __webpack_require__(/*! react-is */ "./node_modules/react-is/index.js"),
+                isValidElementType = _require.isValidElementType;
+
+            if (!isValidElementType(Component)) {
+              throw new Error("The default export is not a React Component in page: \"".concat(page, "\""));
+            }
+          }
+        });
+      }, function (error) {
+        // This catches errors like throwing in the top level of a module
+        initialErr = error;
+      });
+
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
       return _temp && _temp.then ? _temp.then(_temp2) : _temp2(_temp);
     });
   } catch (e) {
@@ -8681,6 +9856,7 @@ function () {
           }
         }; // If there's a cached version of the page, let's use it.
 
+<<<<<<< HEAD
 
         var cachedPage = _this.pageCache[route];
 
@@ -8807,6 +9983,134 @@ function () {
             }
           };
 
+=======
+
+        var cachedPage = _this.pageCache[route];
+
+        if (cachedPage) {
+          var error = cachedPage.error,
+              page = cachedPage.page;
+          error ? reject(error) : resolve(page);
+          return;
+        } // Register a listener to get the page
+
+
+        _this.pageRegisterEvents.on(route, fire); // If the page is loading via SSR, we need to wait for it
+        // rather downloading it again.
+
+
+        if (document.getElementById("__NEXT_PAGE__".concat(route))) {
+          return;
+        } // Load the script if not asked to load yet.
+
+
+        if (!_this.loadingRoutes[route]) {
+          _this.loadScript(route);
+
+          _this.loadingRoutes[route] = true;
+        }
+      });
+    }
+  }, {
+    key: "onDynamicBuildId",
+    value: function onDynamicBuildId() {
+      var _this2 = this;
+
+      this.promisedBuildId = new _promise.default(function (resolve) {
+        unfetch_1.default("".concat(_this2.assetPrefix, "/_next/static/HEAD_BUILD_ID")).then(function (res) {
+          if (res.ok) {
+            return res;
+          }
+
+          var err = new Error('Failed to fetch HEAD buildId');
+          err.res = res;
+          throw err;
+        }).then(function (res) {
+          return res.text();
+        }).then(function (buildId) {
+          _this2.buildId = buildId.trim();
+        }).catch(function () {
+          // When this fails it's not a _huge_ deal, preload wont work and page
+          // navigation will 404, triggering a SSR refresh
+          console.warn('Failed to load BUILD_ID from server. ' + 'The following client-side page transition will likely 404 and cause a SSR.\n' + 'http://err.sh/zeit/next.js/head-build-id');
+        }).then(resolve, resolve);
+      });
+    }
+  }, {
+    key: "loadScript",
+    value: function (route) {
+      try {
+        var _this4 = this;
+
+        return _promise.default.resolve(_this4.promisedBuildId).then(function () {
+          route = _this4.normalizeRoute(route);
+          var scriptRoute = route === '/' ? '/index.js' : "".concat(route, ".js");
+          var script = document.createElement('script');
+          var url = "".concat(_this4.assetPrefix, "/_next/static/").concat(encodeURIComponent(_this4.buildId), "/pages").concat(scriptRoute);
+          script.crossOrigin = undefined;
+          script.src = url;
+
+          script.onerror = function () {
+            var error = new Error("Error when loading route: ".concat(route));
+            error.code = 'PAGE_LOAD_ERROR';
+
+            _this4.pageRegisterEvents.emit(route, {
+              error: error
+            });
+          };
+
+          document.body.appendChild(script);
+        });
+      } catch (e) {
+        return _promise.default.reject(e);
+      }
+    } // This method if called by the route code.
+
+  }, {
+    key: "registerPage",
+    value: function registerPage(route, regFn) {
+      var _this5 = this;
+
+      var register = function register() {
+        try {
+          var _regFn = regFn(),
+              error = _regFn.error,
+              page = _regFn.page;
+
+          _this5.pageCache[route] = {
+            error: error,
+            page: page
+          };
+
+          _this5.pageRegisterEvents.emit(route, {
+            error: error,
+            page: page
+          });
+        } catch (error) {
+          _this5.pageCache[route] = {
+            error: error
+          };
+
+          _this5.pageRegisterEvents.emit(route, {
+            error: error
+          });
+        }
+      };
+
+      if (true) {
+        // Wait for webpack to become idle if it's not.
+        // More info: https://github.com/zeit/next.js/pull/1511
+        if ( true && module.hot.status() !== 'idle') {
+          console.log("Waiting for webpack to become \"idle\" to initialize the page: \"".concat(route, "\""));
+
+          var check = function check(status) {
+            if (status === 'idle') {
+              module.hot.removeStatusHandler(check);
+              register();
+            }
+          };
+
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
           module.hot.status(check);
           return;
         }
@@ -9234,7 +10538,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
+<<<<<<< HEAD
 var prop_types_1 = __importDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+=======
+var prop_types_1 = __importDefault(__webpack_require__(/*! prop-types */ "./node_modules/next/node_modules/prop-types/index.js"));
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
 
 function withRouter(ComposedComponent) {
   var WithRouteWrapper =
@@ -9275,6 +10583,7 @@ exports.default = withRouter;
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ "./node_modules/node-libs-browser/node_modules/punycode/punycode.js":
 /*!**************************************************************************!*\
   !*** ./node_modules/node-libs-browser/node_modules/punycode/punycode.js ***!
@@ -10028,11 +11337,28 @@ process.umask = function() { return 0; };
  */
 
 
+=======
+/***/ "./node_modules/next/node_modules/prop-types/checkPropTypes.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/next/node_modules/prop-types/checkPropTypes.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
 
 var printWarning = function() {};
 
 if (true) {
-  var ReactPropTypesSecret = __webpack_require__(/*! ./lib/ReactPropTypesSecret */ "./node_modules/prop-types/lib/ReactPropTypesSecret.js");
+  var ReactPropTypesSecret = __webpack_require__(/*! ./lib/ReactPropTypesSecret */ "./node_modules/next/node_modules/prop-types/lib/ReactPropTypesSecret.js");
   var loggedTypeFailures = {};
 
   printWarning = function(text) {
@@ -10049,6 +11375,119 @@ if (true) {
   };
 }
 
+/**
+ * Assert that the values match with the type specs.
+ * Error messages are memorized and will only be shown once.
+ *
+ * @param {object} typeSpecs Map of name to a ReactPropType
+ * @param {object} values Runtime values that need to be type-checked
+ * @param {string} location e.g. "prop", "context", "child context"
+ * @param {string} componentName Name of the component for error messages.
+ * @param {?Function} getStack Returns the component stack.
+ * @private
+ */
+function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
+  if (true) {
+    for (var typeSpecName in typeSpecs) {
+      if (typeSpecs.hasOwnProperty(typeSpecName)) {
+        var error;
+        // Prop type validation may throw. In case they do, we don't want to
+        // fail the render phase where it didn't fail before. So we log it.
+        // After these have been cleaned up, we'll let them throw.
+        try {
+          // This is intentionally an invariant that gets caught. It's the same
+          // behavior as without this statement except with a better message.
+          if (typeof typeSpecs[typeSpecName] !== 'function') {
+            var err = Error(
+              (componentName || 'React class') + ': ' + location + ' type `' + typeSpecName + '` is invalid; ' +
+              'it must be a function, usually from the `prop-types` package, but received `' + typeof typeSpecs[typeSpecName] + '`.'
+            );
+            err.name = 'Invariant Violation';
+            throw err;
+          }
+          error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
+        } catch (ex) {
+          error = ex;
+        }
+        if (error && !(error instanceof Error)) {
+          printWarning(
+            (componentName || 'React class') + ': type specification of ' +
+            location + ' `' + typeSpecName + '` is invalid; the type checker ' +
+            'function must return `null` or an `Error` but returned a ' + typeof error + '. ' +
+            'You may have forgotten to pass an argument to the type checker ' +
+            'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' +
+            'shape all require an argument).'
+          )
+
+        }
+        if (error instanceof Error && !(error.message in loggedTypeFailures)) {
+          // Only monitor this failure once because there tends to be a lot of the
+          // same error.
+          loggedTypeFailures[error.message] = true;
+
+          var stack = getStack ? getStack() : '';
+
+          printWarning(
+            'Failed ' + location + ' type: ' + error.message + (stack != null ? stack : '')
+          );
+        }
+      }
+    }
+  }
+}
+
+module.exports = checkPropTypes;
+
+
+/***/ }),
+
+/***/ "./node_modules/next/node_modules/prop-types/factoryWithTypeCheckers.js":
+/*!******************************************************************************!*\
+  !*** ./node_modules/next/node_modules/prop-types/factoryWithTypeCheckers.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+var assign = __webpack_require__(/*! object-assign */ "./node_modules/object-assign/index.js");
+
+var ReactPropTypesSecret = __webpack_require__(/*! ./lib/ReactPropTypesSecret */ "./node_modules/next/node_modules/prop-types/lib/ReactPropTypesSecret.js");
+var checkPropTypes = __webpack_require__(/*! ./checkPropTypes */ "./node_modules/next/node_modules/prop-types/checkPropTypes.js");
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
+
+var printWarning = function() {};
+
+if (true) {
+<<<<<<< HEAD
+  var ReactPropTypesSecret = __webpack_require__(/*! ./lib/ReactPropTypesSecret */ "./node_modules/prop-types/lib/ReactPropTypesSecret.js");
+  var loggedTypeFailures = {};
+
+=======
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
+  printWarning = function(text) {
+    var message = 'Warning: ' + text;
+    if (typeof console !== 'undefined') {
+      console.error(message);
+    }
+    try {
+      // --- Welcome to debugging React ---
+      // This error was thrown as a convenience so that you can use this stack
+      // to find the callsite that caused this warning to fire.
+      throw new Error(message);
+    } catch (x) {}
+  };
+}
+
+<<<<<<< HEAD
 /**
  * Assert that the values match with the type specs.
  * Error messages are memorized and will only be shown once.
@@ -10157,6 +11596,11 @@ if (true) {
 function emptyFunctionThatReturnsNull() {
   return null;
 }
+=======
+function emptyFunctionThatReturnsNull() {
+  return null;
+}
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
   /* global Symbol */
@@ -10479,6 +11923,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
           return null;
         }
       }
+<<<<<<< HEAD
 
       return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`.'));
     }
@@ -10731,6 +12176,259 @@ if (true) {
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+=======
+
+      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`.'));
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createNodeChecker() {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (!isNode(props[propName])) {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`, expected a ReactNode.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createShapeTypeChecker(shapeTypes) {
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== 'object') {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
+      }
+      for (var key in shapeTypes) {
+        var checker = shapeTypes[key];
+        if (!checker) {
+          continue;
+        }
+        var error = checker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
+        if (error) {
+          return error;
+        }
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createStrictShapeTypeChecker(shapeTypes) {
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== 'object') {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
+      }
+      // We need to check all keys in case some are required but missing from
+      // props.
+      var allKeys = assign({}, props[propName], shapeTypes);
+      for (var key in allKeys) {
+        var checker = shapeTypes[key];
+        if (!checker) {
+          return new PropTypeError(
+            'Invalid ' + location + ' `' + propFullName + '` key `' + key + '` supplied to `' + componentName + '`.' +
+            '\nBad object: ' + JSON.stringify(props[propName], null, '  ') +
+            '\nValid keys: ' +  JSON.stringify(Object.keys(shapeTypes), null, '  ')
+          );
+        }
+        var error = checker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
+        if (error) {
+          return error;
+        }
+      }
+      return null;
+    }
+
+    return createChainableTypeChecker(validate);
+  }
+
+  function isNode(propValue) {
+    switch (typeof propValue) {
+      case 'number':
+      case 'string':
+      case 'undefined':
+        return true;
+      case 'boolean':
+        return !propValue;
+      case 'object':
+        if (Array.isArray(propValue)) {
+          return propValue.every(isNode);
+        }
+        if (propValue === null || isValidElement(propValue)) {
+          return true;
+        }
+
+        var iteratorFn = getIteratorFn(propValue);
+        if (iteratorFn) {
+          var iterator = iteratorFn.call(propValue);
+          var step;
+          if (iteratorFn !== propValue.entries) {
+            while (!(step = iterator.next()).done) {
+              if (!isNode(step.value)) {
+                return false;
+              }
+            }
+          } else {
+            // Iterator will provide entry [k,v] tuples rather than values.
+            while (!(step = iterator.next()).done) {
+              var entry = step.value;
+              if (entry) {
+                if (!isNode(entry[1])) {
+                  return false;
+                }
+              }
+            }
+          }
+        } else {
+          return false;
+        }
+
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  function isSymbol(propType, propValue) {
+    // Native Symbol.
+    if (propType === 'symbol') {
+      return true;
+    }
+
+    // 19.4.3.5 Symbol.prototype[@@toStringTag] === 'Symbol'
+    if (propValue['@@toStringTag'] === 'Symbol') {
+      return true;
+    }
+
+    // Fallback for non-spec compliant Symbols which are polyfilled.
+    if (typeof Symbol === 'function' && propValue instanceof Symbol) {
+      return true;
+    }
+
+    return false;
+  }
+
+  // Equivalent of `typeof` but with special handling for array and regexp.
+  function getPropType(propValue) {
+    var propType = typeof propValue;
+    if (Array.isArray(propValue)) {
+      return 'array';
+    }
+    if (propValue instanceof RegExp) {
+      // Old webkits (at least until Android 4.0) return 'function' rather than
+      // 'object' for typeof a RegExp. We'll normalize this here so that /bla/
+      // passes PropTypes.object.
+      return 'object';
+    }
+    if (isSymbol(propType, propValue)) {
+      return 'symbol';
+    }
+    return propType;
+  }
+
+  // This handles more types than `getPropType`. Only used for error messages.
+  // See `createPrimitiveTypeChecker`.
+  function getPreciseType(propValue) {
+    if (typeof propValue === 'undefined' || propValue === null) {
+      return '' + propValue;
+    }
+    var propType = getPropType(propValue);
+    if (propType === 'object') {
+      if (propValue instanceof Date) {
+        return 'date';
+      } else if (propValue instanceof RegExp) {
+        return 'regexp';
+      }
+    }
+    return propType;
+  }
+
+  // Returns a string that is postfixed to a warning about an invalid type.
+  // For example, "undefined" or "of type array"
+  function getPostfixForTypeWarning(value) {
+    var type = getPreciseType(value);
+    switch (type) {
+      case 'array':
+      case 'object':
+        return 'an ' + type;
+      case 'boolean':
+      case 'date':
+      case 'regexp':
+        return 'a ' + type;
+      default:
+        return type;
+    }
+  }
+
+  // Returns class name of the object, if any.
+  function getClassName(propValue) {
+    if (!propValue.constructor || !propValue.constructor.name) {
+      return ANONYMOUS;
+    }
+    return propValue.constructor.name;
+  }
+
+  ReactPropTypes.checkPropTypes = checkPropTypes;
+  ReactPropTypes.PropTypes = ReactPropTypes;
+
+  return ReactPropTypes;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/next/node_modules/prop-types/index.js":
+/*!************************************************************!*\
+  !*** ./node_modules/next/node_modules/prop-types/index.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (true) {
+  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+    Symbol.for &&
+    Symbol.for('react.element')) ||
+    0xeac7;
+
+  var isValidElement = function(object) {
+    return typeof object === 'object' &&
+      object !== null &&
+      object.$$typeof === REACT_ELEMENT_TYPE;
+  };
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(/*! ./factoryWithTypeCheckers */ "./node_modules/next/node_modules/prop-types/factoryWithTypeCheckers.js")(isValidElement, throwOnDirectAccess);
+} else {}
+
+
+/***/ }),
+
+/***/ "./node_modules/next/node_modules/prop-types/lib/ReactPropTypesSecret.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/next/node_modules/prop-types/lib/ReactPropTypesSecret.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
 
 
@@ -10739,6 +12437,753 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 module.exports = ReactPropTypesSecret;
 
 
+/***/ }),
+
+/***/ "./node_modules/node-libs-browser/node_modules/punycode/punycode.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/node-libs-browser/node_modules/punycode/punycode.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.4.1 by @mathias */
+;(function(root) {
+
+	/** Detect free variables */
+	var freeExports =  true && exports &&
+		!exports.nodeType && exports;
+	var freeModule =  true && module &&
+		!module.nodeType && module;
+	var freeGlobal = typeof global == 'object' && global;
+	if (
+		freeGlobal.global === freeGlobal ||
+		freeGlobal.window === freeGlobal ||
+		freeGlobal.self === freeGlobal
+	) {
+		root = freeGlobal;
+	}
+
+	/**
+	 * The `punycode` object.
+	 * @name punycode
+	 * @type Object
+	 */
+	var punycode,
+
+	/** Highest positive signed 32-bit float value */
+	maxInt = 2147483647, // aka. 0x7FFFFFFF or 2^31-1
+
+	/** Bootstring parameters */
+	base = 36,
+	tMin = 1,
+	tMax = 26,
+	skew = 38,
+	damp = 700,
+	initialBias = 72,
+	initialN = 128, // 0x80
+	delimiter = '-', // '\x2D'
+
+	/** Regular expressions */
+	regexPunycode = /^xn--/,
+	regexNonASCII = /[^\x20-\x7E]/, // unprintable ASCII chars + non-ASCII chars
+	regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g, // RFC 3490 separators
+
+	/** Error messages */
+	errors = {
+		'overflow': 'Overflow: input needs wider integers to process',
+		'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
+		'invalid-input': 'Invalid input'
+	},
+
+	/** Convenience shortcuts */
+	baseMinusTMin = base - tMin,
+	floor = Math.floor,
+	stringFromCharCode = String.fromCharCode,
+
+	/** Temporary variable */
+	key;
+
+	/*--------------------------------------------------------------------------*/
+
+	/**
+	 * A generic error utility function.
+	 * @private
+	 * @param {String} type The error type.
+	 * @returns {Error} Throws a `RangeError` with the applicable error message.
+	 */
+	function error(type) {
+		throw new RangeError(errors[type]);
+	}
+
+	/**
+	 * A generic `Array#map` utility function.
+	 * @private
+	 * @param {Array} array The array to iterate over.
+	 * @param {Function} callback The function that gets called for every array
+	 * item.
+	 * @returns {Array} A new array of values returned by the callback function.
+	 */
+	function map(array, fn) {
+		var length = array.length;
+		var result = [];
+		while (length--) {
+			result[length] = fn(array[length]);
+		}
+		return result;
+	}
+
+	/**
+	 * A simple `Array#map`-like wrapper to work with domain name strings or email
+	 * addresses.
+	 * @private
+	 * @param {String} domain The domain name or email address.
+	 * @param {Function} callback The function that gets called for every
+	 * character.
+	 * @returns {Array} A new string of characters returned by the callback
+	 * function.
+	 */
+	function mapDomain(string, fn) {
+		var parts = string.split('@');
+		var result = '';
+		if (parts.length > 1) {
+			// In email addresses, only the domain name should be punycoded. Leave
+			// the local part (i.e. everything up to `@`) intact.
+			result = parts[0] + '@';
+			string = parts[1];
+		}
+		// Avoid `split(regex)` for IE8 compatibility. See #17.
+		string = string.replace(regexSeparators, '\x2E');
+		var labels = string.split('.');
+		var encoded = map(labels, fn).join('.');
+		return result + encoded;
+	}
+
+	/**
+	 * Creates an array containing the numeric code points of each Unicode
+	 * character in the string. While JavaScript uses UCS-2 internally,
+	 * this function will convert a pair of surrogate halves (each of which
+	 * UCS-2 exposes as separate characters) into a single code point,
+	 * matching UTF-16.
+	 * @see `punycode.ucs2.encode`
+	 * @see <https://mathiasbynens.be/notes/javascript-encoding>
+	 * @memberOf punycode.ucs2
+	 * @name decode
+	 * @param {String} string The Unicode input string (UCS-2).
+	 * @returns {Array} The new array of code points.
+	 */
+	function ucs2decode(string) {
+		var output = [],
+		    counter = 0,
+		    length = string.length,
+		    value,
+		    extra;
+		while (counter < length) {
+			value = string.charCodeAt(counter++);
+			if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
+				// high surrogate, and there is a next character
+				extra = string.charCodeAt(counter++);
+				if ((extra & 0xFC00) == 0xDC00) { // low surrogate
+					output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
+				} else {
+					// unmatched surrogate; only append this code unit, in case the next
+					// code unit is the high surrogate of a surrogate pair
+					output.push(value);
+					counter--;
+				}
+			} else {
+				output.push(value);
+			}
+		}
+		return output;
+	}
+
+	/**
+	 * Creates a string based on an array of numeric code points.
+	 * @see `punycode.ucs2.decode`
+	 * @memberOf punycode.ucs2
+	 * @name encode
+	 * @param {Array} codePoints The array of numeric code points.
+	 * @returns {String} The new Unicode string (UCS-2).
+	 */
+	function ucs2encode(array) {
+		return map(array, function(value) {
+			var output = '';
+			if (value > 0xFFFF) {
+				value -= 0x10000;
+				output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
+				value = 0xDC00 | value & 0x3FF;
+			}
+			output += stringFromCharCode(value);
+			return output;
+		}).join('');
+	}
+
+	/**
+	 * Converts a basic code point into a digit/integer.
+	 * @see `digitToBasic()`
+	 * @private
+	 * @param {Number} codePoint The basic numeric code point value.
+	 * @returns {Number} The numeric value of a basic code point (for use in
+	 * representing integers) in the range `0` to `base - 1`, or `base` if
+	 * the code point does not represent a value.
+	 */
+	function basicToDigit(codePoint) {
+		if (codePoint - 48 < 10) {
+			return codePoint - 22;
+		}
+		if (codePoint - 65 < 26) {
+			return codePoint - 65;
+		}
+		if (codePoint - 97 < 26) {
+			return codePoint - 97;
+		}
+		return base;
+	}
+
+	/**
+	 * Converts a digit/integer into a basic code point.
+	 * @see `basicToDigit()`
+	 * @private
+	 * @param {Number} digit The numeric value of a basic code point.
+	 * @returns {Number} The basic code point whose value (when used for
+	 * representing integers) is `digit`, which needs to be in the range
+	 * `0` to `base - 1`. If `flag` is non-zero, the uppercase form is
+	 * used; else, the lowercase form is used. The behavior is undefined
+	 * if `flag` is non-zero and `digit` has no uppercase form.
+	 */
+	function digitToBasic(digit, flag) {
+		//  0..25 map to ASCII a..z or A..Z
+		// 26..35 map to ASCII 0..9
+		return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
+	}
+
+	/**
+	 * Bias adaptation function as per section 3.4 of RFC 3492.
+	 * https://tools.ietf.org/html/rfc3492#section-3.4
+	 * @private
+	 */
+	function adapt(delta, numPoints, firstTime) {
+		var k = 0;
+		delta = firstTime ? floor(delta / damp) : delta >> 1;
+		delta += floor(delta / numPoints);
+		for (/* no initialization */; delta > baseMinusTMin * tMax >> 1; k += base) {
+			delta = floor(delta / baseMinusTMin);
+		}
+		return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
+	}
+
+	/**
+	 * Converts a Punycode string of ASCII-only symbols to a string of Unicode
+	 * symbols.
+	 * @memberOf punycode
+	 * @param {String} input The Punycode string of ASCII-only symbols.
+	 * @returns {String} The resulting string of Unicode symbols.
+	 */
+	function decode(input) {
+		// Don't use UCS-2
+		var output = [],
+		    inputLength = input.length,
+		    out,
+		    i = 0,
+		    n = initialN,
+		    bias = initialBias,
+		    basic,
+		    j,
+		    index,
+		    oldi,
+		    w,
+		    k,
+		    digit,
+		    t,
+		    /** Cached calculation results */
+		    baseMinusT;
+
+		// Handle the basic code points: let `basic` be the number of input code
+		// points before the last delimiter, or `0` if there is none, then copy
+		// the first basic code points to the output.
+
+		basic = input.lastIndexOf(delimiter);
+		if (basic < 0) {
+			basic = 0;
+		}
+
+		for (j = 0; j < basic; ++j) {
+			// if it's not a basic code point
+			if (input.charCodeAt(j) >= 0x80) {
+				error('not-basic');
+			}
+			output.push(input.charCodeAt(j));
+		}
+
+		// Main decoding loop: start just after the last delimiter if any basic code
+		// points were copied; start at the beginning otherwise.
+
+		for (index = basic > 0 ? basic + 1 : 0; index < inputLength; /* no final expression */) {
+
+			// `index` is the index of the next character to be consumed.
+			// Decode a generalized variable-length integer into `delta`,
+			// which gets added to `i`. The overflow checking is easier
+			// if we increase `i` as we go, then subtract off its starting
+			// value at the end to obtain `delta`.
+			for (oldi = i, w = 1, k = base; /* no condition */; k += base) {
+
+				if (index >= inputLength) {
+					error('invalid-input');
+				}
+
+				digit = basicToDigit(input.charCodeAt(index++));
+
+				if (digit >= base || digit > floor((maxInt - i) / w)) {
+					error('overflow');
+				}
+
+				i += digit * w;
+				t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+
+				if (digit < t) {
+					break;
+				}
+
+				baseMinusT = base - t;
+				if (w > floor(maxInt / baseMinusT)) {
+					error('overflow');
+				}
+
+				w *= baseMinusT;
+
+			}
+
+			out = output.length + 1;
+			bias = adapt(i - oldi, out, oldi == 0);
+
+			// `i` was supposed to wrap around from `out` to `0`,
+			// incrementing `n` each time, so we'll fix that now:
+			if (floor(i / out) > maxInt - n) {
+				error('overflow');
+			}
+
+			n += floor(i / out);
+			i %= out;
+
+			// Insert `n` at position `i` of the output
+			output.splice(i++, 0, n);
+
+		}
+
+		return ucs2encode(output);
+	}
+
+	/**
+	 * Converts a string of Unicode symbols (e.g. a domain name label) to a
+	 * Punycode string of ASCII-only symbols.
+	 * @memberOf punycode
+	 * @param {String} input The string of Unicode symbols.
+	 * @returns {String} The resulting Punycode string of ASCII-only symbols.
+	 */
+	function encode(input) {
+		var n,
+		    delta,
+		    handledCPCount,
+		    basicLength,
+		    bias,
+		    j,
+		    m,
+		    q,
+		    k,
+		    t,
+		    currentValue,
+		    output = [],
+		    /** `inputLength` will hold the number of code points in `input`. */
+		    inputLength,
+		    /** Cached calculation results */
+		    handledCPCountPlusOne,
+		    baseMinusT,
+		    qMinusT;
+
+		// Convert the input in UCS-2 to Unicode
+		input = ucs2decode(input);
+
+		// Cache the length
+		inputLength = input.length;
+
+		// Initialize the state
+		n = initialN;
+		delta = 0;
+		bias = initialBias;
+
+		// Handle the basic code points
+		for (j = 0; j < inputLength; ++j) {
+			currentValue = input[j];
+			if (currentValue < 0x80) {
+				output.push(stringFromCharCode(currentValue));
+			}
+		}
+
+		handledCPCount = basicLength = output.length;
+
+		// `handledCPCount` is the number of code points that have been handled;
+		// `basicLength` is the number of basic code points.
+
+		// Finish the basic string - if it is not empty - with a delimiter
+		if (basicLength) {
+			output.push(delimiter);
+		}
+
+		// Main encoding loop:
+		while (handledCPCount < inputLength) {
+
+			// All non-basic code points < n have been handled already. Find the next
+			// larger one:
+			for (m = maxInt, j = 0; j < inputLength; ++j) {
+				currentValue = input[j];
+				if (currentValue >= n && currentValue < m) {
+					m = currentValue;
+				}
+			}
+
+			// Increase `delta` enough to advance the decoder's <n,i> state to <m,0>,
+			// but guard against overflow
+			handledCPCountPlusOne = handledCPCount + 1;
+			if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
+				error('overflow');
+			}
+
+			delta += (m - n) * handledCPCountPlusOne;
+			n = m;
+
+			for (j = 0; j < inputLength; ++j) {
+				currentValue = input[j];
+
+				if (currentValue < n && ++delta > maxInt) {
+					error('overflow');
+				}
+
+				if (currentValue == n) {
+					// Represent delta as a generalized variable-length integer
+					for (q = delta, k = base; /* no condition */; k += base) {
+						t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+						if (q < t) {
+							break;
+						}
+						qMinusT = q - t;
+						baseMinusT = base - t;
+						output.push(
+							stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0))
+						);
+						q = floor(qMinusT / baseMinusT);
+					}
+
+					output.push(stringFromCharCode(digitToBasic(q, 0)));
+					bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
+					delta = 0;
+					++handledCPCount;
+				}
+			}
+
+			++delta;
+			++n;
+
+		}
+		return output.join('');
+	}
+
+	/**
+	 * Converts a Punycode string representing a domain name or an email address
+	 * to Unicode. Only the Punycoded parts of the input will be converted, i.e.
+	 * it doesn't matter if you call it on a string that has already been
+	 * converted to Unicode.
+	 * @memberOf punycode
+	 * @param {String} input The Punycoded domain name or email address to
+	 * convert to Unicode.
+	 * @returns {String} The Unicode representation of the given Punycode
+	 * string.
+	 */
+	function toUnicode(input) {
+		return mapDomain(input, function(string) {
+			return regexPunycode.test(string)
+				? decode(string.slice(4).toLowerCase())
+				: string;
+		});
+	}
+
+	/**
+	 * Converts a Unicode string representing a domain name or an email address to
+	 * Punycode. Only the non-ASCII parts of the domain name will be converted,
+	 * i.e. it doesn't matter if you call it with a domain that's already in
+	 * ASCII.
+	 * @memberOf punycode
+	 * @param {String} input The domain name or email address to convert, as a
+	 * Unicode string.
+	 * @returns {String} The Punycode representation of the given domain name or
+	 * email address.
+	 */
+	function toASCII(input) {
+		return mapDomain(input, function(string) {
+			return regexNonASCII.test(string)
+				? 'xn--' + encode(string)
+				: string;
+		});
+	}
+
+	/*--------------------------------------------------------------------------*/
+
+	/** Define the public API */
+	punycode = {
+		/**
+		 * A string representing the current Punycode.js version number.
+		 * @memberOf punycode
+		 * @type String
+		 */
+		'version': '1.4.1',
+		/**
+		 * An object of methods to convert from JavaScript's internal character
+		 * representation (UCS-2) to Unicode code points, and back.
+		 * @see <https://mathiasbynens.be/notes/javascript-encoding>
+		 * @memberOf punycode
+		 * @type Object
+		 */
+		'ucs2': {
+			'decode': ucs2decode,
+			'encode': ucs2encode
+		},
+		'decode': decode,
+		'encode': encode,
+		'toASCII': toASCII,
+		'toUnicode': toUnicode
+	};
+
+	/** Expose `punycode` */
+	// Some AMD build optimizers, like r.js, check for specific condition patterns
+	// like the following:
+	if (
+		true
+	) {
+		!(__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+			return punycode;
+		}).call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {}
+
+}(this));
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module), __webpack_require__(/*! ./../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./node_modules/object-assign/index.js":
+/*!***************************************************************************************************!*\
+  !*** delegated ./node_modules/object-assign/index.js from dll-reference dll_7aff549c98b978433226 ***!
+  \***************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = (__webpack_require__(/*! dll-reference dll_7aff549c98b978433226 */ "dll-reference dll_7aff549c98b978433226"))("./node_modules/object-assign/index.js");
+
+/***/ }),
+
+/***/ "./node_modules/process/browser.js":
+/*!*****************************************!*\
+  !*** ./node_modules/process/browser.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+<<<<<<< HEAD
+var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+
+module.exports = ReactPropTypesSecret;
+=======
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
+
+process.listeners = function (name) { return [] }
+
+<<<<<<< HEAD
+=======
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
 /***/ }),
 
 /***/ "./node_modules/querystring-es3/decode.js":
@@ -10952,12 +13397,20 @@ exports.encode = exports.stringify = __webpack_require__(/*! ./encode */ "./node
 
 /***/ "./node_modules/react-dom/index.js":
 /*!***********************************************************************************************!*\
+<<<<<<< HEAD
   !*** delegated ./node_modules/react-dom/index.js from dll-reference dll_afa7b25a60452594c240 ***!
+=======
+  !*** delegated ./node_modules/react-dom/index.js from dll-reference dll_7aff549c98b978433226 ***!
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
   \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
 module.exports = (__webpack_require__(/*! dll-reference dll_afa7b25a60452594c240 */ "dll-reference dll_afa7b25a60452594c240"))("./node_modules/react-dom/index.js");
+=======
+module.exports = (__webpack_require__(/*! dll-reference dll_7aff549c98b978433226 */ "dll-reference dll_7aff549c98b978433226"))("./node_modules/react-dom/index.js");
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
 
 /***/ }),
 
@@ -11231,12 +13684,20 @@ if (false) {} else {
 
 /***/ "./node_modules/react/index.js":
 /*!*******************************************************************************************!*\
+<<<<<<< HEAD
   !*** delegated ./node_modules/react/index.js from dll-reference dll_afa7b25a60452594c240 ***!
+=======
+  !*** delegated ./node_modules/react/index.js from dll-reference dll_7aff549c98b978433226 ***!
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
   \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
 module.exports = (__webpack_require__(/*! dll-reference dll_afa7b25a60452594c240 */ "dll-reference dll_afa7b25a60452594c240"))("./node_modules/react/index.js");
+=======
+module.exports = (__webpack_require__(/*! dll-reference dll_7aff549c98b978433226 */ "dll-reference dll_7aff549c98b978433226"))("./node_modules/react/index.js");
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
 
 /***/ }),
 
@@ -12827,12 +15288,20 @@ module.exports = {
 
 /***/ "./node_modules/webpack/buildin/global.js":
 /*!******************************************************************************************************!*\
+<<<<<<< HEAD
   !*** delegated ./node_modules/webpack/buildin/global.js from dll-reference dll_afa7b25a60452594c240 ***!
+=======
+  !*** delegated ./node_modules/webpack/buildin/global.js from dll-reference dll_7aff549c98b978433226 ***!
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
   \******************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
 module.exports = (__webpack_require__(/*! dll-reference dll_afa7b25a60452594c240 */ "dll-reference dll_afa7b25a60452594c240"))("./node_modules/webpack/buildin/global.js");
+=======
+module.exports = (__webpack_require__(/*! dll-reference dll_7aff549c98b978433226 */ "dll-reference dll_7aff549c98b978433226"))("./node_modules/webpack/buildin/global.js");
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
 
 /***/ }),
 
@@ -12869,14 +15338,24 @@ module.exports = function(module) {
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ "dll-reference dll_afa7b25a60452594c240":
 /*!*******************************************!*\
   !*** external "dll_afa7b25a60452594c240" ***!
+=======
+/***/ "dll-reference dll_7aff549c98b978433226":
+/*!*******************************************!*\
+  !*** external "dll_7aff549c98b978433226" ***!
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
   \*******************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
+<<<<<<< HEAD
 module.exports = dll_afa7b25a60452594c240;
+=======
+module.exports = dll_7aff549c98b978433226;
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
 
 /***/ })
 

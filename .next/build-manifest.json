@@ -1,6 +1,10 @@
 {
   "devFiles": [
+<<<<<<< HEAD
     "static/development/dll/dll_11fbb1faa946535a5071.js"
+=======
+    "static/development/dll/dll_aa8f31c0c93a8f34edc5.js"
+>>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
   ],
   "pages": {
     "/": [

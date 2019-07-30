@@ -1,0 +1,31 @@
+html,
+*,
+body {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-smoothing: antialiased;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 62.5%;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+body {
+    overflow-x: hidden;
+    padding: 0;
+    margin: 0;
+    font-family: mr-eaves-xl-modern, sans-serif;
+    font-weight: 300;
+    line-height: 1.5;
+    background-color: #FFF8F2;
+}
