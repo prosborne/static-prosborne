@@ -1,5 +1,4 @@
 node_modules
 .nowignore
-next.config.js
 yarn.lock
 package-lock.json
