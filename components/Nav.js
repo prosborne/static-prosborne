@@ -6,14 +6,20 @@ class NavBar extends Component {
     render() {
         return (
             <Nav>
-                <div role='logo image'>
-                    <h1>Peter Riley Osborne</h1>
-                </div>
+                <figure role='logo image'>
+                    <Link href='/'>
+                        <a>
+                            <i>
+                                <img src="../static/pro-logo.svg" />
+                            </i>
+                        </a>
+                    </Link>
+                </figure>
                 <aside>
-                    <Link href='/blog'><a>Blog</a></Link>
-                    <Link href='/resume'><a>Resume</a></Link>
-                    <Link href='/services'><a>Services</a></Link>
-                    <Link href='/contact'><a>Contact</a></Link>
+                    <Link href='/blog'><a title='Thoughts on all things according to Peter | Blog'>Blog</a></Link>
+                    <Link href='/music'><a title='A look into the melodic soul of Peter | Music'>Music</a></Link>
+                    <Link href='/development'><a title='All your code are belong to Peter! | Development'>Development</a></Link>
+                    <Link href='/contact'><a title='Getting ahold of Peter | Contact'>Contact</a></Link>
                 </aside>
             </Nav>
         );

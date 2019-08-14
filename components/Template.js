@@ -9,7 +9,7 @@ class Layout extends Component {
             <Template>
                 <div className="app">
                     <Header />
-                    <section>{this.props.children}</section>
+                    <main>{this.props.children}</main>
                     <Footer />
                 </div>
             </Template>

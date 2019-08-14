@@ -4,6 +4,7 @@ const theme = {
     black: '#0F011B',
     orange: '#FF7400',
     purple: '#7700DD',
+    lavendar: '#f2f4ff',
     overlay: 'rgba(15, 1, 27, 0.3)',
     textShadow: '0 0 0.5em rgba(15, 1, 27, 0.5)',
     boxShadow: '0 0 3px rgba(15, 1, 27, 0.75)',

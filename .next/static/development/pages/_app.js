@@ -4798,7 +4798,6 @@ function () {
     key: "prefetch",
     value: function prefetch(url) {
       var _this5 = this;
-<<<<<<< HEAD
 
       return new _promise.default(function (resolve, reject) {
         // Prefetch is not supported in development mode because it would trigger on-demand-entries
@@ -4807,16 +4806,6 @@ function () {
         var _url_1$parse2 = url_1.parse(url),
             pathname = _url_1$parse2.pathname; // @ts-ignore pathname is always defined
 
-=======
-
-      return new _promise.default(function (resolve, reject) {
-        // Prefetch is not supported in development mode because it would trigger on-demand-entries
-        if (true) return;
-
-        var _url_1$parse2 = url_1.parse(url),
-            pathname = _url_1$parse2.pathname; // @ts-ignore pathname is always defined
-
->>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
 
         var route = toRoute(pathname);
 
@@ -4971,7 +4960,6 @@ function () {
           _url$split2 = (0, _slicedToArray2.default)(_url$split, 2),
           pathname = _url$split2[0],
           hash = _url$split2[1]; // tslint:disable-next-line
-<<<<<<< HEAD
 
 
       var _pathname$split = pathname.split('?'),
@@ -4981,17 +4969,6 @@ function () {
 
       path = path.replace(/\/$/, ''); // Append a trailing slash if this path does not have an extension
 
-=======
-
-
-      var _pathname$split = pathname.split('?'),
-          _pathname$split2 = (0, _slicedToArray2.default)(_pathname$split, 2),
-          path = _pathname$split2[0],
-          qs = _pathname$split2[1];
-
-      path = path.replace(/\/$/, ''); // Append a trailing slash if this path does not have an extension
-
->>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
       if (!/\.[^/]+\/?$/.test(path)) path += "/";
       if (qs) path += '?' + qs;
       if (hash) path += '#' + hash;
@@ -5337,13 +5314,8 @@ exports.createRouter = function () {
   SingletonRouter.readyCallbacks = [];
   return SingletonRouter.router;
 }; // This function is used to create the `withRouter` router instance
-<<<<<<< HEAD
 
 
-=======
-
-
->>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
 function makePublicRouterInstance(router) {
   var _router = router;
   var instance = {};
@@ -5421,11 +5393,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
-<<<<<<< HEAD
-var prop_types_1 = __importDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
-=======
 var prop_types_1 = __importDefault(__webpack_require__(/*! prop-types */ "./node_modules/next/node_modules/prop-types/index.js"));
->>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
 
 function withRouter(ComposedComponent) {
   var WithRouteWrapper =
@@ -5684,17 +5652,10 @@ exports.createUrl = createUrl;
 
 /***/ }),
 
-<<<<<<< HEAD
-/***/ "./node_modules/node-libs-browser/node_modules/punycode/punycode.js":
-/*!**************************************************************************!*\
-  !*** ./node_modules/node-libs-browser/node_modules/punycode/punycode.js ***!
-  \**************************************************************************/
-=======
 /***/ "./node_modules/next/node_modules/prop-types/checkPropTypes.js":
 /*!*********************************************************************!*\
   !*** ./node_modules/next/node_modules/prop-types/checkPropTypes.js ***!
   \*********************************************************************/
->>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6355,20 +6316,9 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   ReactPropTypes.checkPropTypes = checkPropTypes;
   ReactPropTypes.PropTypes = ReactPropTypes;
 
-<<<<<<< HEAD
-/***/ "./node_modules/object-assign/index.js":
-/*!***************************************************************************************************!*\
-  !*** delegated ./node_modules/object-assign/index.js from dll-reference dll_afa7b25a60452594c240 ***!
-  \***************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = (__webpack_require__(/*! dll-reference dll_afa7b25a60452594c240 */ "dll-reference dll_afa7b25a60452594c240"))("./node_modules/object-assign/index.js");
-=======
   return ReactPropTypes;
 };
 
->>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
 
 /***/ }),
 
@@ -6431,14 +6381,25 @@ module.exports = ReactPropTypesSecret;
 
 /***/ }),
 
-/***/ "./node_modules/node-libs-browser/node_modules/punycode/punycode.js":
-/*!**************************************************************************!*\
-  !*** ./node_modules/node-libs-browser/node_modules/punycode/punycode.js ***!
-  \**************************************************************************/
+/***/ "./node_modules/object-assign/index.js":
+/*!***************************************************************************************************!*\
+  !*** delegated ./node_modules/object-assign/index.js from dll-reference dll_7aff549c98b978433226 ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.4.1 by @mathias */
+module.exports = (__webpack_require__(/*! dll-reference dll_7aff549c98b978433226 */ "dll-reference dll_7aff549c98b978433226"))("./node_modules/object-assign/index.js");
+
+/***/ }),
+
+/***/ "./node_modules/punycode/punycode.js":
+/*!*******************************************!*\
+  !*** ./node_modules/punycode/punycode.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.3.2 by @mathias */
 ;(function(root) {
 
 	/** Detect free variables */
@@ -6504,7 +6465,7 @@ module.exports = ReactPropTypesSecret;
 	 * @returns {Error} Throws a `RangeError` with the applicable error message.
 	 */
 	function error(type) {
-		throw new RangeError(errors[type]);
+		throw RangeError(errors[type]);
 	}
 
 	/**
@@ -6651,7 +6612,7 @@ module.exports = ReactPropTypesSecret;
 
 	/**
 	 * Bias adaptation function as per section 3.4 of RFC 3492.
-	 * https://tools.ietf.org/html/rfc3492#section-3.4
+	 * http://tools.ietf.org/html/rfc3492#section-3.4
 	 * @private
 	 */
 	function adapt(delta, numPoints, firstTime) {
@@ -6926,7 +6887,7 @@ module.exports = ReactPropTypesSecret;
 		 * @memberOf punycode
 		 * @type String
 		 */
-		'version': '1.4.1',
+		'version': '1.3.2',
 		/**
 		 * An object of methods to convert from JavaScript's internal character
 		 * representation (UCS-2) to Unicode code points, and back.
@@ -6958,18 +6919,7 @@ module.exports = ReactPropTypesSecret;
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module), __webpack_require__(/*! ./../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
-
-/***/ }),
-
-/***/ "./node_modules/object-assign/index.js":
-/*!***************************************************************************************************!*\
-  !*** delegated ./node_modules/object-assign/index.js from dll-reference dll_7aff549c98b978433226 ***!
-  \***************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = (__webpack_require__(/*! dll-reference dll_7aff549c98b978433226 */ "dll-reference dll_7aff549c98b978433226"))("./node_modules/object-assign/index.js");
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module), __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -7440,20 +7390,12 @@ if (false) {} else {
 
 /***/ "./node_modules/react/index.js":
 /*!*******************************************************************************************!*\
-<<<<<<< HEAD
-  !*** delegated ./node_modules/react/index.js from dll-reference dll_afa7b25a60452594c240 ***!
-=======
   !*** delegated ./node_modules/react/index.js from dll-reference dll_7aff549c98b978433226 ***!
->>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
   \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-<<<<<<< HEAD
-module.exports = (__webpack_require__(/*! dll-reference dll_afa7b25a60452594c240 */ "dll-reference dll_afa7b25a60452594c240"))("./node_modules/react/index.js");
-=======
 module.exports = (__webpack_require__(/*! dll-reference dll_7aff549c98b978433226 */ "dll-reference dll_7aff549c98b978433226"))("./node_modules/react/index.js");
->>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
 
 /***/ }),
 
@@ -8268,7 +8210,7 @@ if (hadRuntime) {
 
 
 
-var punycode = __webpack_require__(/*! punycode */ "./node_modules/node-libs-browser/node_modules/punycode/punycode.js");
+var punycode = __webpack_require__(/*! punycode */ "./node_modules/punycode/punycode.js");
 var util = __webpack_require__(/*! ./util */ "./node_modules/url/util.js");
 
 exports.parse = urlParse;
@@ -9011,20 +8953,12 @@ module.exports = {
 
 /***/ "./node_modules/webpack/buildin/global.js":
 /*!******************************************************************************************************!*\
-<<<<<<< HEAD
-  !*** delegated ./node_modules/webpack/buildin/global.js from dll-reference dll_afa7b25a60452594c240 ***!
-=======
   !*** delegated ./node_modules/webpack/buildin/global.js from dll-reference dll_7aff549c98b978433226 ***!
->>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
   \******************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-<<<<<<< HEAD
-module.exports = (__webpack_require__(/*! dll-reference dll_afa7b25a60452594c240 */ "dll-reference dll_afa7b25a60452594c240"))("./node_modules/webpack/buildin/global.js");
-=======
 module.exports = (__webpack_require__(/*! dll-reference dll_7aff549c98b978433226 */ "dll-reference dll_7aff549c98b978433226"))("./node_modules/webpack/buildin/global.js");
->>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
 
 /***/ }),
 
@@ -9061,24 +8995,14 @@ module.exports = function(module) {
 
 /***/ }),
 
-<<<<<<< HEAD
-/***/ "dll-reference dll_afa7b25a60452594c240":
-/*!*******************************************!*\
-  !*** external "dll_afa7b25a60452594c240" ***!
-=======
 /***/ "dll-reference dll_7aff549c98b978433226":
 /*!*******************************************!*\
   !*** external "dll_7aff549c98b978433226" ***!
->>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
   \*******************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-<<<<<<< HEAD
-module.exports = dll_afa7b25a60452594c240;
-=======
 module.exports = dll_7aff549c98b978433226;
->>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
 
 /***/ })
 

@@ -3908,24 +3908,11 @@ var styles = {
 
 /***/ "./node_modules/react/index.js":
 /*!*******************************************************************************************!*\
-<<<<<<< HEAD
-  !*** delegated ./node_modules/react/index.js from dll-reference dll_afa7b25a60452594c240 ***!
-=======
   !*** delegated ./node_modules/react/index.js from dll-reference dll_7aff549c98b978433226 ***!
->>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
   \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-<<<<<<< HEAD
-module.exports = (__webpack_require__(/*! dll-reference dll_afa7b25a60452594c240 */ "dll-reference dll_afa7b25a60452594c240"))("./node_modules/react/index.js");
-
-/***/ }),
-
-/***/ "dll-reference dll_afa7b25a60452594c240":
-/*!*******************************************!*\
-  !*** external "dll_afa7b25a60452594c240" ***!
-=======
 module.exports = (__webpack_require__(/*! dll-reference dll_7aff549c98b978433226 */ "dll-reference dll_7aff549c98b978433226"))("./node_modules/react/index.js");
 
 /***/ }),
@@ -3933,16 +3920,11 @@ module.exports = (__webpack_require__(/*! dll-reference dll_7aff549c98b978433226
 /***/ "dll-reference dll_7aff549c98b978433226":
 /*!*******************************************!*\
   !*** external "dll_7aff549c98b978433226" ***!
->>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
   \*******************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-<<<<<<< HEAD
-module.exports = dll_afa7b25a60452594c240;
-=======
 module.exports = dll_7aff549c98b978433226;
->>>>>>> 8b4523cd82e7a06a86fba96253daf400ed6f8004
 
 /***/ })
 
