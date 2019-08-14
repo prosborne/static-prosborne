@@ -1,0 +1,5 @@
+white: 'white',
+peach: '#FFF8F2',
+black: '#0F011B',
+orange: '#FF7400',
+purple: '#7700DD'

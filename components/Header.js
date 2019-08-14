@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import NavBar from './Nav';
+import Head from "./styles/head";
 
 class Header extends Component {
     render() {
         return (
-            <div>
-                <strong>This is the header</strong>
-            </div>
+            <Head>
+                <NavBar />
+            </Head>
         );
     }
 }
